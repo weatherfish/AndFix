@@ -55,11 +55,13 @@ void replace_6_0(JNIEnv* env, jobject src, jobject dest) {
     reinterpret_cast<art::mirror::Class*>(dmeth->declaring_class_)->clinit_thread_id_ =
     reinterpret_cast<art::mirror::Class*>(smeth->declaring_class_)->clinit_thread_id_;
     reinterpret_cast<art::mirror::Class*>(dmeth->declaring_class_)->status_ = reinterpret_cast<art::mirror::Class*>(smeth->declaring_class_)->status_-1;
-    
+    //for reflection invoke
+    reinterpret_cast<art::mirror::Class*>(dmeth->declaring_class_)->super_class_ = 0;
+
     smeth->declaring_class_ = dmeth->declaring_class_;
     smeth->dex_cache_resolved_methods_ = dmeth->dex_cache_resolved_methods_;
     smeth->dex_cache_resolved_types_ = dmeth->dex_cache_resolved_types_;
-    smeth->access_flags_ = dmeth->access_flags_ & (~0x0002) | 0x0001;
+    smeth->access_flags_ = dmeth->access_flags_ | 0x0001;
     smeth->dex_code_item_offset_ = dmeth->dex_code_item_offset_;
     smeth->dex_method_index_ = dmeth->dex_method_index_;
     smeth->method_index_ = dmeth->method_index_;
